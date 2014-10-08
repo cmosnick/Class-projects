@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAX_LINE_LENGTH 128
 
 struct node
@@ -43,7 +44,7 @@ Reads file, parses it, creates adjacecny list
 struct node* fileReader(FILE *file)
 {
 	char line[MAX_LINE_LENGTH];
-	int nodes;
+	int nodes, node1, node2;
 	//Check pointer passed
 	if(file == NULL)
 	{
@@ -58,11 +59,24 @@ struct node* fileReader(FILE *file)
 
 	//printf("\nNumber of nodes: %d\n\n", nodes);
 	struct node *head = createNodeList(nodes);
-	
+	char *token;
 	//Scan through rest fo file & parse out pair sets
-	
+	while(fgets(line, MAX_LINE_LENGTH, file) != NULL)
+	{
+		//Parse line
+		int error;
+		token = strtok(line, "(");
+		while(token != NULL)
+		{
+			if(sscanf(token, "%d,%d", &node1, &node2) != EOF)
+			{
+				printf("\n%d,%d", node1, node2);
+			}
+			token = strtok(NULL, "(");
+		}
+	}
 
-	
+	fclose(file);
 	return head;
 }
 
@@ -88,6 +102,8 @@ struct node* createNodeList(int nodes)
 	}
 	return head;
 }
+
+
 
 
 void clearMemory(struct node *head)
