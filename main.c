@@ -1,5 +1,5 @@
 #include "fileReadFuncs.h"
-#include "printList.h"
+#include "graphAlgs.h"
 
 
 int main(int argc, char *argv[])
@@ -13,11 +13,10 @@ int main(int argc, char *argv[])
 	struct node *head = readFile(argv[1]);
 
 	//Pass adjlist to be printed
-
+	printList(head);
 
 	//Clear memory
+	printf("\n");
 	clearMemory(head);
 	return 1;
 }//end main
-
-

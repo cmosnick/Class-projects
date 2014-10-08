@@ -1,5 +1,9 @@
-#include <stdio.h>
+#ifndef STRUCTS_C
+#define STRUCTS_C
 
+struct foo {
+    int member;
+};
 struct node
 {
 	int number;
@@ -14,9 +18,4 @@ struct adj
 	struct node *original;
 };
 
-
-void printList(struct node *head)
-{
-
-
-}
+#endif

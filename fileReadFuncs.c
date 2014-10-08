@@ -1,28 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "structs.c"
 #define MAX_LINE_LENGTH 128
 
 
 /////////////////////////////////////////////////////Data structres
-struct node
-{
-	int number;
-	struct node *next;
-	struct adj *adj;
-	char color[10];
-};
-struct adj
-{
-	int number;
-	struct adj *next;
-	struct node *original;
-};
+
 
 ////////////////////////////////////////////////////Prototypes
 struct node* readFile(char filename[]);
 struct node* createNodeList(int numNodes);
-struct adj* createAdjNode(struct node *orig);
+struct adj* createAdjNode(struct node *orig, int num);
 void clearMemory(struct node *head);
 void addAdjNode(struct node *head, int node, int adj);
 
@@ -61,7 +50,6 @@ struct node* readFile(char filename[])
 		{
 			if(sscanf(token, "%d,%d", &node1, &node2) != EOF)
 			{
-				printf("\n%d,%d", node1, node2);
 				//Send to have node added to adjacency list
 				addAdjNode(head, node1, node2);
 			}
@@ -122,7 +110,7 @@ void addAdjNode(struct node *head, int node, int adj)
 	//find last adjnode in adjacency list of node
 	if(nodePtr->adj == NULL)	
 	{	//Create adjacency pointer
-		nodePtr->adj = createAdjNode(tempAdjPtr);
+		nodePtr->adj = createAdjNode(tempAdjPtr, adj);
 	}
 	else
 	{
@@ -133,25 +121,37 @@ void addAdjNode(struct node *head, int node, int adj)
 			adjPtr = adjPtr->next;
 		}
 		//Create adjacency pointer
-		adjPtr->next= createAdjNode(tempAdjPtr);
+		adjPtr->next= createAdjNode(tempAdjPtr, adj);
 	}	
 }
 
-struct adj* createAdjNode(struct node *orig)
+struct adj* createAdjNode(struct node *orig, int num)
 {
 	struct adj *node= malloc(sizeof(struct adj));
 	node-> next = NULL;
 	node->original = orig;
+	node->number=num;
 	return node;
 }
 
+/*
+Clears memory of allocated objects/structs
+*/
 void clearMemory(struct node *head)
 {
 	struct node *prev;
+	struct adj *adjHead, *prevAdj;
 	while(head != NULL)
 	{
 		prev = head;
+		adjHead = head->adj;
 		head = head->next;
+		while(adjHead != NULL)
+		{
+			prevAdj = adjHead;
+			adjHead = adjHead->next;
+			free(prevAdj);
+		}
 		free(head);
 	}
 }
