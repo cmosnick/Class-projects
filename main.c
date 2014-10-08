@@ -7,12 +7,20 @@ struct node
 {
 	int number;
 	struct node *next;
-	struct node *adj;
+	struct adj *adj;
 	char color[10];
 };
-struct node* fileReader(FILE *file);
+struct adj
+{
+	int number;
+	struct adj *next;
+	struct node *original;
+};
+struct node* readFile(FILE *file);
 struct node* createNodeList(int numNodes);
+struct adj* createAdjNode(struct node *orig);
 void clearMemory(struct node *head);
+void addAdjNode(struct node *head, int node, int adj);
 
 
 int main(int argc, char *argv[])
@@ -24,7 +32,7 @@ int main(int argc, char *argv[])
 	}	
 
 	FILE *file = fopen(argv[1], "r");	
-	struct node* head = fileReader(file);
+	struct node* head = readFile(file);
 	//Check return value
 	if(head == NULL)
 	{
@@ -41,7 +49,7 @@ int main(int argc, char *argv[])
 /*
 Reads file, parses it, creates adjacecny list
 */
-struct node* fileReader(FILE *file)
+struct node* readFile(FILE *file)
 {
 	char line[MAX_LINE_LENGTH];
 	int nodes, node1, node2;
@@ -64,13 +72,14 @@ struct node* fileReader(FILE *file)
 	while(fgets(line, MAX_LINE_LENGTH, file) != NULL)
 	{
 		//Parse line
-		int error;
 		token = strtok(line, "(");
 		while(token != NULL)
 		{
 			if(sscanf(token, "%d,%d", &node1, &node2) != EOF)
 			{
 				printf("\n%d,%d", node1, node2);
+				//Send to have node added to adjacency list
+				addAdjNode(head, node1, node2);
 			}
 			token = strtok(NULL, "(");
 		}
@@ -88,10 +97,10 @@ struct node* createNodeList(int nodes)
 	int i;
 	//Create head
 	struct node *head = malloc(sizeof(struct node));
-	head->number = 0;
+	head->number = 1;
 	struct node *current = head;
-	//Creaye rest of nodes in linked list
-	for(i=1 ; i<nodes ; i++)
+	//Create rest of nodes in linked list
+	for(i=2 ; i<nodes+1 ; i++)
 	{
 		//Create new nodes, add to linked list
 		current->next = malloc(sizeof(struct node));
@@ -103,8 +112,54 @@ struct node* createNodeList(int nodes)
 	return head;
 }
 
+/*
+Finds node in linked list, 
+finds last adjacency node in node's adjacancy list, 
+adds new adjacent to end of list
+*/
+void addAdjNode(struct node *head, int node, int adj)
+{
+	if (head == NULL) 
+		{	
+			printf("\n head is null in add adj node");
+			return;
+		}
+	struct node *temp=head, *nodePtr=NULL, *tempAdjPtr=NULL;
+	struct adj *adjPtr=NULL;
+	//Go through list until node is found
+	while(temp!=NULL)//&& (nodePtr==NULL && tempAdjPtr==NULL))
+	{
+		//keep track of node and adjacent
+		if(temp->number == node) 	nodePtr=temp;
+		if(temp->number == adj) 	tempAdjPtr=temp;
+		temp = temp->next;
+	}
 
+	//find last adjnode in adjacency list of node
+	if(nodePtr->adj == NULL)	
+	{	//Create adjacency pointer
+		nodePtr->adj = createAdjNode(tempAdjPtr);
+	}
+	else
+	{
+		adjPtr = nodePtr->adj;
+		while(adjPtr!= NULL)
+		{
+			if(adjPtr->next == NULL) break;
+			adjPtr = adjPtr->next;
+		}
+		//Create adjacency pointer
+		adjPtr->next= createAdjNode(tempAdjPtr);
+	}	
+}
 
+struct adj* createAdjNode(struct node *orig)
+{
+	struct adj *node= malloc(sizeof(struct adj));
+	node-> next = NULL;
+	node->original = orig;
+	return node;
+}
 
 void clearMemory(struct node *head)
 {
