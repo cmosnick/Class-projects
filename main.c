@@ -12,20 +12,25 @@ int main(int argc, char *argv[])
 		perror("\nNo file passed to int main");
 	}	
 	//Pass file to readFile
-	struct node *head = readFile(argv[1]);
+	struct graphs *graphs = readFile(argv[1]);
 
 	//Pass adjlist to be printed
-	printList(head);
+	printf("\n\nNewly created adjacancy list:\n");
+	printList(graphs->graph);
+	printf("\n\nNewly created transverse adjacancy list:\n");
+	printList(graphs->transGraph);
 
-	//Send ot BFS
-	printf("\nAbout to send to DFS");
-	DFS(head);
+	//Send to BFS
+	DFS(graphs->graph);
 
 	//Print list again
-	printList(head);
+	printf("\n\nAfter DFS:\n");
+	printList(graphs->graph);
+	//printList(graphs->transGraph);
 
 	//Clear memory
 	printf("\n");
-	clearMemory(head);
+	clearMemory(graphs->graph);
+	clearMemory(graphs->transGraph);
 	return 1;
 }//end main

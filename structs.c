@@ -31,6 +31,11 @@ struct queue
 	struct queueNode *front;
 	struct queueNode *end;
 };
+struct graphs
+{
+	struct node *graph;
+	struct node *transGraph;
+};
 
 
 #endif
