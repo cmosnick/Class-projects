@@ -1,10 +1,10 @@
 #include "structs.c"
 
 
-void printList(struct node *head);
+void printDistance(struct node *head);
 
 
-void printList(struct node *head)
+void printDistance(struct node *head)
 {
 	struct node *temp = head;
 	struct adj *temp2;

@@ -4,7 +4,6 @@
 #include <stdio.h>
 #define NEGINFINITY -INFINITY
 
-
 struct node
 {
 	int number;

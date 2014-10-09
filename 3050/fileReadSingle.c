@@ -7,18 +7,18 @@
 
 
 ////////////////////////////////////////////////////Prototypes
-struct graphs* readFile(char filename[]);
-struct graphs* createNodeList(int numNodes);
+struct node* readSingleFile(char filename[]);
+struct node* createSingleNodeList(int nodes);
+void addAdjNode(struct node *head, int node, int adj);
 struct adj* createAdjNode(struct node *orig, int num);
 void clearMemory(struct node *head);
-void addAdjNode(struct node *head, int node, int adj);
-
 
 ////////////////////////////////////////////////////Functions
 /*
 Reads file, parses it, creates adjacecny list
 */
-struct graphs* readFile(char filename[])
+
+struct node* readSingleFile(char filename[])
 {
 	char line[MAX_LINE_LENGTH];
 	int nodes, node1, node2;
@@ -37,7 +37,7 @@ struct graphs* readFile(char filename[])
 	if(nodes == EOF) return NULL;
 
 
-	struct graphs *graphs = createNodeList(nodes);
+	struct node *head = createSingleNodeList(nodes);
 	char *token;
 	//Scan through rest fo file & parse out pair sets
 	while(fgets(line, MAX_LINE_LENGTH, file) != NULL)
@@ -49,63 +49,40 @@ struct graphs* readFile(char filename[])
 			if(sscanf(token, "%d,%d", &node1, &node2) != EOF)
 			{
 				//Send to have node added to adjacency list
-				addAdjNode(graphs->graph, node1, node2);
-				addAdjNode(graphs->transGraph, node2, node1);
+				addAdjNode(head, node1, node2);
 			}
 			token = strtok(NULL, "(");
 		}
 	}
 	fclose(file);
-	return graphs;
+	return head;
 }
 
-/*
-Creates a linked list of nodes, according to number of nodes specified
-Creates transverse of graph at same time
-*/
-struct graphs* createNodeList(int nodes)
+
+
+struct node* createSingleNodeList(int nodes)
 {
 	int i;
 	//Create head
 	struct node *gHead = malloc(sizeof(struct node));
-	struct node *gtHead = malloc(sizeof(struct node));
-	struct graphs *graphs = malloc(sizeof(struct graphs));
-	graphs->graph = gHead;
-	graphs->transGraph = gtHead;
-
 	gHead->number = 1;
-	gtHead-> number =1;
 	struct node *current = gHead;
-	struct node *gtcurrent = gtHead;
 
 	//Create rest of nodes in linked list
 	for(i=2 ; i<nodes+1 ; i++)
 	{
 		//Create new nodes, add to linked list, for both graph and tranverse of graph
 		current->next = malloc(sizeof(struct node));
-		gtcurrent->next = malloc(sizeof(struct node));
-
 		current = current->next;
-		gtcurrent = gtcurrent->next;
-
 		current->number = i;
-		gtcurrent->number = i;
-
 		current->next=NULL;
-		gtcurrent->next = NULL;
-
 		current->adj = NULL;
-		gtcurrent->adj = NULL;
-
 		current->dist = -INFINITY;
-		gtcurrent->dist = -INFINITY;
-
 		current->visited = 0;
-		gtcurrent->visited = 0;	
 	}
 
 	//Create array of pointers to nodes
-	return graphs;
+	return gHead;
 }
 
 /*

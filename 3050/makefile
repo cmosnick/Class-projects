@@ -1,17 +1,25 @@
-all: main.o fileReadFuncs.o graphAlgs.o bfs.o
-	gcc -o all main.o 
+all: distance clean
 
-main.o: fileReadFuncs.h graphAlgs.h bfs.h main.c 
-	gcc -c main.c
+distance: distance.o fileReadSingle.o bfs.o printDistance.o
+	gcc -o distance distance.o
 
-fileReadFuncs.o: 
-	gcc -c fileReadFuncs.c 
+printDistance.o: printDistance.c printDistance.h
+	gcc -c printDistance.c
 
-graphAlgs.o: 
-	gcc -c graphAlgs.c
+fileReadDouble.o: fileReadDouble.c fileReadDouble.h
+	gcc -c fileReadDouble.c
 
-bfs.o:
+fileReadSingle.o:  fileReadSingle.h
+	gcc -c fileReadSingle.c
+
+distance.o: distance.c distance.h
+	gcc -c distance.c
+
+bfs.o: bfs.c bfs.h
 	gcc -c bfs.c
+
+dfs.o:	dfs.c dfs.h
+	gcc -c dfs.c
 
 clean:
 	rm *.o all

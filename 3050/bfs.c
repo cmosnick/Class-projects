@@ -10,7 +10,6 @@ void printQ(struct queue *q);
 
 void BFS(struct node *head)
 {
-	printf("\nIn BFS!!");
 	struct queue *q = malloc(sizeof(struct queue));
 	q->front = NULL;
 	q->end = NULL;
@@ -20,7 +19,6 @@ void BFS(struct node *head)
 	struct node *temp;
 	while(q->front != NULL)
 	{
-		printQ(q);
 		temp = dequeue(q);
 		enqueueAjdacents(temp, q);
 	}
@@ -32,7 +30,6 @@ Will create and add new Qnode to end of queue
 */
 void enqueue(struct queue *q, struct node *node, int dist)
 {	
-	printf("\nEnqueueing node:  %d\n", node->number);
 	//make new Qnode to enqueue to end
 	struct queueNode *newnode = malloc(sizeof(struct queueNode));
 	//Assign values to new Qnode
@@ -77,7 +74,6 @@ Given a Qnode, will enqueue all of its unreached adjacent nodes
 */
 void enqueueAjdacents(struct node *node, struct queue *q)
 {
-	printf("\nEnqueueing adjacents of %d", node->number);
 	struct adj *adjPtr = node->adj;
 	while(adjPtr != NULL)
 	{
