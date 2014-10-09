@@ -11,7 +11,7 @@ void printList(struct node *head)
 	//Go through each node
 	while(temp != NULL)
 	{	
-		printf("\n%4d| %4f| ", temp->number, temp->dist);
+		printf("\n%4d| %10f| s:%4d| f:%4d|  ", temp->number, temp->dist, temp->start, temp->finish);
 		temp2 = temp->adj;
 		//go through each of its adjacent nodes
 		while(temp2!=NULL)

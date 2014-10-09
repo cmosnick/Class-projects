@@ -3,9 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #define NEGINFINITY -INFINITY
-typedef int bool;
-#define true  1
-#define false  0
 
 
 struct node
@@ -13,8 +10,10 @@ struct node
 	int number;
 	struct node *next;
 	struct adj *adj;
-	bool visited;
+	int visited;
 	float dist;
+	int start;
+	int finish;
 };
 struct adj
 {
@@ -32,5 +31,6 @@ struct queue
 	struct queueNode *front;
 	struct queueNode *end;
 };
+
 
 #endif

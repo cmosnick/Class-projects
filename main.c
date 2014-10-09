@@ -1,6 +1,7 @@
 #include "fileReadFuncs.h"
 #include "graphAlgs.h"
 #include "bfs.h"
+#include "dfs.h"
 
 
 int main(int argc, char *argv[])
@@ -17,7 +18,8 @@ int main(int argc, char *argv[])
 	printList(head);
 
 	//Send ot BFS
-	BFS(head);
+	printf("\nAbout to send to DFS");
+	DFS(head);
 
 	//Print list again
 	printList(head);
