@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "structs.c"
+#include <math.h>
 #define MAX_LINE_LENGTH 128
-
-
-/////////////////////////////////////////////////////Data structres
 
 
 ////////////////////////////////////////////////////Prototypes
@@ -38,7 +36,6 @@ struct node* readFile(char filename[])
 	sscanf(line, "%d", &nodes);
 	if(nodes == EOF) return NULL;
 
-	//printf("\nNumber of nodes: %d\n\n", nodes);
 	struct node *head = createNodeList(nodes);
 	char *token;
 	//Scan through rest fo file & parse out pair sets
@@ -80,7 +77,11 @@ struct node* createNodeList(int nodes)
 		current->number = i;
 		current->next=NULL;
 		current->adj = NULL;
+		current->dist = -INFINITY;
+		current->visited = 0;	
 	}
+
+	//Create array of pointers to nodes
 	return head;
 }
 

@@ -15,6 +15,12 @@ int main(int argc, char *argv[])
 	//Pass adjlist to be printed
 	printList(head);
 
+	//Send ot BFS
+	BFS(head);
+
+	//Print list again
+	printList(head);
+
 	//Clear memory
 	printf("\n");
 	clearMemory(head);
