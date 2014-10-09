@@ -1,5 +1,6 @@
 #include "fileReadFuncs.h"
 #include "graphAlgs.h"
+#include "bfs.h"
 
 
 int main(int argc, char *argv[])
