@@ -149,6 +149,9 @@ void addAdjNode(struct node *head, int node, int adj)
 	}	
 }
 
+/*
+Creates and sends back adjacent node to add to main node (vertex)
+*/
 struct adj* createAdjNode(struct node *orig, int num)
 {
 	struct adj *node= malloc(sizeof(struct adj));
