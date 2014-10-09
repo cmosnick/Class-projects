@@ -1,7 +1,10 @@
-all: distance clean
+all: distance ddistance clean
 
 distance: distance.o fileReadSingle.o bfs.o printDistance.o
 	gcc -o distance distance.o
+
+ddistance: ddistance.o fileReadSingle.o bfs.o printDdistance.o
+	gcc -o ddistance ddistance.o
 
 printDistance.o: printDistance.c printDistance.h
 	gcc -c printDistance.c
@@ -14,6 +17,9 @@ fileReadSingle.o:  fileReadSingle.h
 
 distance.o: distance.c distance.h
 	gcc -c distance.c
+
+ddistance.o: ddistance.c ddistance.h
+	gcc -c ddistance.c
 
 bfs.o: bfs.c bfs.h
 	gcc -c bfs.c
