@@ -26,6 +26,9 @@ struct graphs* readDoubleFile(char filename[])
 		perror("\nError opening file.");
 		return NULL;
 	}
+	printf("\nPut in number, please :)");
+	int i;
+	scanf("%d", &i);
 
 	//get num nodes from first line
 	fgets(line, MAX_LINE_LENGTH, file);
@@ -33,7 +36,7 @@ struct graphs* readDoubleFile(char filename[])
 	if(nodes == EOF) return NULL;
 
 
-	struct graphs *graphs = createNodeList(nodes);
+	struct graphs *graphs = createDoubleNodeList(nodes);
 	char *token;
 	//Scan through rest fo file & parse out pair sets
 	while(fgets(line, MAX_LINE_LENGTH, file) != NULL)

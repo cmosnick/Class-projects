@@ -1,7 +1,7 @@
 #include "structs.c"
 
 void DFS(struct node *head);
-void DFS_Visit(struct node *head, struct node*temp);
+void DFS_Visit(struct node *head, struct node*temp, struct queueNode *stack);
 void push(struct node *node, struct queueNode *stack);
 struct node* pop(struct queueNode *stack);
 void printStack(struct queueNode *stack);
@@ -10,32 +10,23 @@ int time =0;
 
 void DFS(struct node *head)
 {
-	//push head onto stack
-	//push(head, stackHead);
-	/*
-	struct queueNode *stackHead;
-	(stackHead) = malloc(sizeof(struct queueNode));
-	(stackHead)->node = head;
-	(stackHead)->next =NULL;
-	*/
 	struct node *temp = head;
 	struct adj *adjacent;
+	struct queueNode *stack;
 	while(temp != NULL)
 	{
-		//printStack(temp);
-		//pop stackhead, push its adjacent onto stack
-		//temp = pop(stackHead);
-		//adjacent = temp->adj;
-		if(temp->visited == 0) //node is unvisited
+			if(temp->visited == 0) //node is unvisited
 		{
-			DFS_Visit(head, temp);
+			DFS_Visit(head, temp, stack);
 		}
 		temp = temp->next;
 	}
+
+	//Call for DFS of transverse
 }
 
 
-void DFS_Visit(struct node *head, struct node*temp)
+void DFS_Visit(struct node *head, struct node*temp, struct queueNode *stack)
 {
 	time++;
 	temp->start = time;
@@ -46,13 +37,15 @@ void DFS_Visit(struct node *head, struct node*temp)
 	{
 		if (adjacent->original->visited ==0)
 		{
-			DFS_Visit(head, adjacent->original);
+			DFS_Visit(head, adjacent->original, stack);
 		}
 		adjacent= adjacent->next;
 	}
 	temp->visited = 2;
 	time ++;
 	temp->finish = time;
+	//Throw onto stack
+	push(temp, stack);
 }
 
 void push(struct node *node, struct queueNode *stack)

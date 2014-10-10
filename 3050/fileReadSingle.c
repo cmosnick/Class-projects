@@ -30,7 +30,10 @@ struct node* readSingleFile(char filename[])
 		perror("\nError opening file.");
 		return NULL;
 	}
-
+	
+	printf("\nPut in number, please :)");
+	int i;
+	scanf("%d", &i);
 	//get num nodes from first line
 	fgets(line, MAX_LINE_LENGTH, file);
 	sscanf(line, "%d", &nodes);
